@@ -1,3 +1,7 @@
+// zu-zi.js
+// v202309111507
+// https://github.com/Hulenkius/zu-zi.js
+
 (function () {
 	// 使用正则表达式匹配文本中的尖括号 ⟨⟩ 包围的内容
 	const expressionRegex = /⟨(.*?)⟩/g;
@@ -28,11 +32,8 @@
 	    let imageUrl = '';
 	    let className = '';
 	    if (hasSpecialCharacters) {
-	      const codePoints = expression
-		.split('')
-		.map((char) => 'u' + char.codePointAt(0).toString(16).toLowerCase())
-		.join('-');
-	      imageUrl = `https://glyphwiki.org/glyph/${codePoints}.svg`;
+	      const codePoints = Array.from(expression).map(char => char.codePointAt(0).toString(16)).join('-u');
+	      imageUrl = `https://glyphwiki.org/glyph/u${codePoints}.svg`;
 	      className = 'zi';
 	    } else if (expression.includes('[')) {
 	      // 移除尖括号和方括号，直接使用内容作为链接
