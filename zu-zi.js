@@ -1,5 +1,5 @@
 // zu-zi.js
-// v202309111507
+// v202309111510
 // https://github.com/Hulenkius/zu-zi.js
 
 (function () {
@@ -32,7 +32,9 @@
 	    let imageUrl = '';
 	    let className = '';
 	    if (hasSpecialCharacters) {
-	      const codePoints = Array.from(expression).map(char => char.codePointAt(0).toString(16)).join('-u');
+	      const codePoints = Array.from(expression)
+		.map(char => char.codePointAt(0).toString(16).toLowerCase())
+		.join('-u');
 	      imageUrl = `https://glyphwiki.org/glyph/u${codePoints}.svg`;
 	      className = 'zi';
 	    } else if (expression.includes('[')) {
