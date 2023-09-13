@@ -1,5 +1,5 @@
 // zu-zi.js
-// v202309132220
+// v202309132320
 // https://github.com/Hulenkius/zu-zi.js
 
 (function () {
@@ -25,28 +25,26 @@
 	  const matches = element.innerHTML.matchAll(expressionRegex);
       
 	  for (const match of matches) {
-	    const expression = match[0]; // 获取整个匹配项，包括 ⟨⟩
-	    const innerExpression = match[1]; // 获取尖括号内的表达式
-      
-	    // 判断表达式中是否包含特定字符
-	    const hasSpecialCharacters = /[⿰⿱⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻⿼⿽⿾⿿㇯]/.test(innerExpression);
+	    const expression = match[1];
       
 	    // 构建图像地址和 class 名称
+	    const hasSpecialCharacters = /[⿰⿱⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻⿼⿽⿾⿿㇯]/.test(expression);
+      
 	    let imageUrl = '';
 	    let className = '';
 	    if (hasSpecialCharacters) {
-	      const codePoints = Array.from(innerExpression)
+	      const codePoints = Array.from(expression)
 		.map(char => char.codePointAt(0).toString(16).toLowerCase())
 		.join('-u');
 	      imageUrl = `https://glyphwiki.org/glyph/u${codePoints}.svg`;
 	      className = 'zi';
-	    } else if (innerExpression.includes('[')) {
+	    } else if (expression.includes('[')) {
 	      // 移除尖括号和方括号，直接使用内容作为链接
-	      const cleanedExpression = innerExpression.replace(/[\[\]]/g, '');
+	      const cleanedExpression = expression.replace(/[⟨⟩\[\]]/g, '');
 	      imageUrl = `https://glyphwiki.org/glyph/${cleanedExpression}.svg`;
 	      className = 'zi';
 	    } else {
-	      const codePoints = Array.from(innerExpression)
+	      const codePoints = Array.from(expression)
 		.map((char) => char.codePointAt(0).toString(16).toLowerCase())
 		.join('-');
 	      imageUrl = `https://seeki.vistudium.top/SVG/${codePoints}.svg`;
@@ -59,10 +57,13 @@
 	    img.className = className;
       
 	    // 将原始表达式保存为自定义属性
-	    img.setAttribute('data-original-expression', innerExpression);
+	    img.setAttribute('data-original-expression', expression);
       
-	    // 将匹配的表达式替换为对应的图像
-	    modifiedText = modifiedText.replace(expression, img.outerHTML);
+	    // 设置被转换的原文为透明
+	    const transparentSpan = `<span style="opacity: 0; width: 1em; font-size:0px">${expression}</span>`;
+      
+	    // 将匹配的表达式替换为对应的图像+透明原文
+	    modifiedText = modifiedText.replace(match[0], img.outerHTML + transparentSpan);
 	    hasConvertedText = true; // 标记为已转换文本
 	  }
       
@@ -71,34 +72,14 @@
 	    element.innerHTML = modifiedText;
 	  }
 	}
-      
-	// 添加复制事件监听器
-	document.addEventListener('copy', function (event) {
-	  const selection = window.getSelection();
-	  if (selection.rangeCount > 0) {
-	    const range = selection.getRangeAt(0);
-	    const container = document.createElement('div');
-	    container.appendChild(range.cloneContents());
-      
-	    // 替换复制的内容，将 SVG 图像替换为原始文本
-	    const images = container.querySelectorAll('.zi, .plgo');
-	    for (const image of images) {
-	      const originalExpression = image.getAttribute('data-original-expression');
-	      const textNode = document.createTextNode(`⟨${originalExpression}⟩`);
-	      image.replaceWith(textNode);
-	    }
-      
-	    // 保留换行信息
-	    const brElements = container.querySelectorAll('br');
-	    for (const brElement of brElements) {
-	      brElement.outerHTML = '\n'; // 用换行符替换<br>
-	    }
-      
-	    event.clipboardData.setData('text/plain', container.textContent);
-      
-	    // 阻止默认复制操作
-	    event.preventDefault();
-	  }
-	});
+
+	// 如果有已转换的文本，则添加不可复制属性
+	if (hasConvertedText) {
+	  const images = document.querySelectorAll('.zi, .plgo');
+	  images.forEach(image => {
+	    image.setAttribute('unselectable', 'on');
+	    image.style.userSelect = 'none';
+	  });
+	}
       })();
       
