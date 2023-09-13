@@ -1,5 +1,5 @@
 // zu-zi.js
-// v202309111510
+// v202309132220
 // https://github.com/Hulenkius/zu-zi.js
 
 (function () {
@@ -14,6 +14,8 @@
 	  false
 	);
       
+	let hasConvertedText = false; // 用于标记是否有已转换成图片的文本
+      
 	// 遍历每个元素节点
 	while (elementNodes.nextNode()) {
 	  const element = elementNodes.currentNode;
@@ -23,27 +25,28 @@
 	  const matches = element.innerHTML.matchAll(expressionRegex);
       
 	  for (const match of matches) {
-	    const expression = match[1];
+	    const expression = match[0]; // 获取整个匹配项，包括 ⟨⟩
+	    const innerExpression = match[1]; // 获取尖括号内的表达式
       
 	    // 判断表达式中是否包含特定字符
-	    const hasSpecialCharacters = /[⿰⿱⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻]/.test(expression);
+	    const hasSpecialCharacters = /[⿰⿱⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻⿼⿽⿾⿿㇯]/.test(innerExpression);
       
 	    // 构建图像地址和 class 名称
 	    let imageUrl = '';
 	    let className = '';
 	    if (hasSpecialCharacters) {
-	      const codePoints = Array.from(expression)
+	      const codePoints = Array.from(innerExpression)
 		.map(char => char.codePointAt(0).toString(16).toLowerCase())
 		.join('-u');
 	      imageUrl = `https://glyphwiki.org/glyph/u${codePoints}.svg`;
 	      className = 'zi';
-	    } else if (expression.includes('[')) {
+	    } else if (innerExpression.includes('[')) {
 	      // 移除尖括号和方括号，直接使用内容作为链接
-	      const cleanedExpression = expression.replace(/[⟨⟩\[\]]/g, '');
+	      const cleanedExpression = innerExpression.replace(/[\[\]]/g, '');
 	      imageUrl = `https://glyphwiki.org/glyph/${cleanedExpression}.svg`;
 	      className = 'zi';
 	    } else {
-	      const codePoints = Array.from(expression)
+	      const codePoints = Array.from(innerExpression)
 		.map((char) => char.codePointAt(0).toString(16).toLowerCase())
 		.join('-');
 	      imageUrl = `https://seeki.vistudium.top/SVG/${codePoints}.svg`;
@@ -56,10 +59,11 @@
 	    img.className = className;
       
 	    // 将原始表达式保存为自定义属性
-	    img.setAttribute('data-original-expression', expression);
+	    img.setAttribute('data-original-expression', innerExpression);
       
 	    // 将匹配的表达式替换为对应的图像
-	    modifiedText = modifiedText.replace(match[0], img.outerHTML);
+	    modifiedText = modifiedText.replace(expression, img.outerHTML);
+	    hasConvertedText = true; // 标记为已转换文本
 	  }
       
 	  // 更新元素节点的内容
@@ -82,6 +86,12 @@
 	      const originalExpression = image.getAttribute('data-original-expression');
 	      const textNode = document.createTextNode(`⟨${originalExpression}⟩`);
 	      image.replaceWith(textNode);
+	    }
+      
+	    // 保留换行信息
+	    const brElements = container.querySelectorAll('br');
+	    for (const brElement of brElements) {
+	      brElement.outerHTML = '\n'; // 用换行符替换<br>
 	    }
       
 	    event.clipboardData.setData('text/plain', container.textContent);
