@@ -9,7 +9,7 @@
 
 在 html 中引用 zu-zi.js。
 
-將擴展字用高尖括號 ⟨⟩ 包起來，腳本會將其處理成徧黑體中的字形。徧黑體中未完成的字則會顯示爲國標宋體。返回的圖像帶有「class="plgo"」屬性。<br>
+將擴展字用高尖括號 ⟨⟩ 包起來（你也可以在 zu-zi.js 中查找替換爲其他符號），腳本會將其處理成徧黑體中的字形。徧黑體中未完成的字則會顯示爲國標宋體。返回的圖像帶有「class="plgo"」屬性。<br>
 使用如：⟨𩽾⟩ ⟨𩾌⟩
 
 將 IDS 表達式用高尖括號 ⟨⟩ 包起來，腳本會將其處理成 Glyphwiki 中含有的字形。如果 Glyphwiki 中沒有此字，則會顯示成豆腐。返回的圖像帶有「class="zi"」屬性。<br>
@@ -30,11 +30,11 @@
 	margin: -0.05em;
 }
 .plgo {
-    height: 0.92em;
-    position: relative;
-    top: .12em;
-    margin: 0.042em;
+	height: 0.92em;
+	position: relative;
+	top: .12em;
+	margin: 0.042em;
 }
 ```
 
-本腳本全部由 ChatGPT 編寫。
+本腳本藉助 ChatGPT 創作。你可以任意處置分發之類。
