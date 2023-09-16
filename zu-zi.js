@@ -1,5 +1,5 @@
 // zu-zi.js
-// v202309162230
+// v202309162340
 // https://github.com/Hulenkius/zu-zi.js
 
 (function () {
@@ -32,18 +32,21 @@
       
 	    let imageUrl = '';
 	    let className = '';
-	    if (hasSpecialCharacters) {
+	    if (expression.includes('?')) { //字統網組字
+		const cleanedExpression = expression.replace(/[‹›\?]/g, '');
+		imageUrl = `http://zu.zi.tools/${cleanedExpression}.svg`;
+		className = 'zi';
+	    } else if (hasSpecialCharacters) { //GW IDS
 	      const codePoints = Array.from(expression)
 		.map(char => char.codePointAt(0).toString(16).toLowerCase())
 		.join('-u');
 	      imageUrl = `https://glyphwiki.org/glyph/u${codePoints}.svg`;
 	      className = 'zi';
-	    } else if (expression.includes('[')) {
-	      // 移除尖括号和方括号，直接使用内容作为链接
-	      const cleanedExpression = expression.replace(/[⟨⟩\[\]]/g, '');
+	    } else if (expression.includes('[')) { //GW 同名字形
+	      const cleanedExpression = expression.replace(/[‹›\[\]]/g, '');
 	      imageUrl = `https://glyphwiki.org/glyph/${cleanedExpression}.svg`;
 	      className = 'zi';
-	    } else {
+	    } else { //徧黑體
 	      const codePoints = Array.from(expression)
 		.map((char) => char.codePointAt(0).toString(16).toLowerCase())
 		.join('-');
