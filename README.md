@@ -20,7 +20,7 @@
 
 複製以上內容的結果將不會是圖片，而是原高尖括號中的內容。
 
-爲了顯示美觀，可以在網站 css 中加入以下內容：
+爲了圖片顯示美觀、文本複製方便，可以在網站 css 中加入以下內容：
 
 ```
 .zi{
@@ -34,6 +34,14 @@
 	position: relative;
 	top: .12em;
 	margin: 0.042em;
+}
+.zi, .plgo {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-khtml-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 }
 ```
 

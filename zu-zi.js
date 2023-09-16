@@ -1,5 +1,5 @@
 // zu-zi.js
-// v202309132320
+// v202309162230
 // https://github.com/Hulenkius/zu-zi.js
 
 (function () {
@@ -71,15 +71,6 @@
 	  if (modifiedText !== element.innerHTML) {
 	    element.innerHTML = modifiedText;
 	  }
-	}
-
-	// 如果有已转换的文本，则添加不可复制属性
-	if (hasConvertedText) {
-	  const images = document.querySelectorAll('.zi, .plgo');
-	  images.forEach(image => {
-	    image.setAttribute('unselectable', 'on');
-	    image.style.userSelect = 'none';
-	  });
 	}
       })();
       
