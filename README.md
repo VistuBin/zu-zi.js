@@ -3,7 +3,7 @@
 
 本腳本利用徧黑體 SVG 庫和 Glyphwiki，實現網頁擴展字的便捷顯示。
 
-[DEMO](https://vistudium.top/1926/08/17/zu-zi/)
+[DEMO](https://vistudium.top/1926/08/16/zu-zi/)
 
 # 使用
 
