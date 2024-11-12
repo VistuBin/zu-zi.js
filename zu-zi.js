@@ -1,5 +1,5 @@
 // zu-zi.js
-// v202309162340
+// v202411121249
 // https://github.com/Hulenkius/zu-zi.js
 
 (function () {
@@ -23,6 +23,9 @@
 				imageUrl = `http://zu.zi.tools/${expression.replace(/[‹›\?]/g, '')}.svg`;
 			} else if (specialCharRegex.test(expression)) {
 				imageUrl = `https://glyphwiki.org/glyph/u${Array.from(expression).map(char => char.codePointAt(0).toString(16).toLowerCase()).join('-u')}.svg`;
+			} else if (expression.includes('#')) {
+				imageUrl = `https://seeki.vistudium.top/SEAL/${Array.from(expression.replace(/[‹›\#]/g, '')).map(char => char.codePointAt(0).toString(16).toLowerCase())}.svg`;
+				className = 'zi-zhuan';
 			} else if (expression.includes('[')) {
 				imageUrl = `https://glyphwiki.org/glyph/${expression.replace(/[‹›\[\]]/g, '')}.svg`;
 			} else {
