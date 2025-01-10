@@ -3,7 +3,7 @@
 
 本腳本利用徧黑體 SVG 庫和 Glyphwiki，實現網頁擴展字的便捷顯示。
 
-[DEMO](https://vistudium.top/1926/08/16/zu-zi/)
+[DEMO](https://vistudium.top/1926/08/17/zu-zi/)
 
 # 使用
 
@@ -37,18 +37,9 @@
 	margin: -0.05em;
 }
 .plgo {
-	height: 0.92em;
+	height: 1em;
 	position: relative;
-	top: .12em;
-	margin: 0.042em;
-}
-.zi, .plgo {
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	-khtml-user-select: none;
-	-o-user-select: none;
-	user-select: none;
+	top: .13em;
 }
 ```
 
